@@ -10,6 +10,8 @@ import EventOutlinedIcon from "@material-ui/icons/EventOutlined";
 import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import TwoWheelerIcon from "@material-ui/icons/TwoWheeler";
 
+import { courierData, clientData } from "constants/Data";
+
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoibW9lLXRoZXQiLCJhIjoiY2tvanRrOW5rMHhyZTJ3anp2NWw2ZnAzaCJ9.MjAsSE5-apWBbqbVa_oQBQ";
 
@@ -24,6 +26,9 @@ const pickup = () => {
 
   const [click, setClick] = useState(true);
   const [barClick, setBarClick] = useState(true);
+  const [box, setBox] = useState(null);
+
+  console.log(box);
 
   return (
     <Wrapper>
@@ -47,7 +52,29 @@ const pickup = () => {
                 {!barClick ? <UnderBar /> : null}
               </AssignedWrapper>
             </FirstMiddleWrapper>
-            <BoxWrapper onClick={() => setClick(false)}>
+            {clientData.map((data) => (
+              <BoxWrapper
+                onClick={() => {
+                  setBox(data);
+                  setClick(false);
+                }}
+                key={data.id}
+              >
+                <BoxLocationWrapper>
+                  <ImageWrapper>
+                    <Image src="/box.png" alt="Box" width={35} height={35} />
+                  </ImageWrapper>
+                  <IdLocationWrapper>
+                    <IdText>{data.PickupID}</IdText>
+                    <LocationText>Hlaing, Yangon</LocationText>
+                  </IdLocationWrapper>
+                </BoxLocationWrapper>
+                <TimeWrapper>
+                  <TimeText>{data.PickupDate}</TimeText>
+                </TimeWrapper>
+              </BoxWrapper>
+            ))}
+            {/* <BoxWrapper onClick={() => setClick(false)}>
               <BoxLocationWrapper>
                 <ImageWrapper>
                   <Image src="/box.png" alt="Box" width={35} height={35} />
@@ -60,14 +87,14 @@ const pickup = () => {
               <TimeWrapper>
                 <TimeText>18 May 2021, 2:00 to 3:00 pm</TimeText>
               </TimeWrapper>
-            </BoxWrapper>
+            </BoxWrapper> */}
           </>
-        ) : (
+        ) : box ? (
           <>
             <ClickBoxHeader>
               <ClickIdTextWrapper>
-                <Title>PK000118052021</Title>
-                <ClickDate>17 May 2021, 2:21 PM</ClickDate>
+                <Title>{box.PickupID}</Title>
+                <ClickDate>{box.PickupTime}</ClickDate>
               </ClickIdTextWrapper>
               <IconWrapper>
                 <EditIcon />
@@ -76,32 +103,27 @@ const pickup = () => {
             </ClickBoxHeader>
             <AddressWrapper>
               <AddressIcon />
-              <AddressText>
-                No.22, Building 32, Thu Nandar Street, Hlaing Myint Mo Estate,
-                Hlaing, Yangon
-              </AddressText>
+              <AddressText>{box.Address}</AddressText>
             </AddressWrapper>
             <DateWrapper>
               <DateIcon />
-              <DateText>18 May 2021, 2:00 to 3:00 pm</DateText>
+              <DateText>{box.PickupDate}</DateText>
             </DateWrapper>
             <NoteWrapper>
               <NoteIcon />
               <NoteText>-</NoteText>
             </NoteWrapper>
-            <SecondImageTextWrapper>
-              <SecondImage
-                src="/profile_2.png"
-                alt="Image"
-                width={40}
-                height={40}
-              />
-              <CustomerInfoWrapper>
-                <CustomerName>Jennie</CustomerName>
-                <CustomerShopName>Pink Pink Online Shop</CustomerShopName>
-                <CustomerPhno>09797122458</CustomerPhno>
-              </CustomerInfoWrapper>
-            </SecondImageTextWrapper>
+            {box.clientInfo.map(({ id, name, img, shopName, PhoneNo }) => (
+              <SecondImageTextWrapper key={id}>
+                <SecondImage src={img} alt="Image" width={40} height={40} />
+                <CustomerInfoWrapper>
+                  <CustomerName>{name}</CustomerName>
+                  <CustomerShopName>{shopName}</CustomerShopName>
+                  <CustomerPhno>{PhoneNo}</CustomerPhno>
+                </CustomerInfoWrapper>
+              </SecondImageTextWrapper>
+            ))}
+
             <BikeIconWrapper>
               <BikeIconContainer>
                 <BikeIcon />
@@ -115,7 +137,7 @@ const pickup = () => {
               <CancelButton>Cancel</CancelButton>
             </ButtonWrapper>
           </>
-        )}
+        ) : null}
       </FirstHeaderWrapper>
 
       <SecondHeaderWrapper>
@@ -126,59 +148,21 @@ const pickup = () => {
             <Search />
           </SecondSearchWrapper>
         </SecondHeaderContainer>
-        <SecondBoxWrapper>
-          <ImageTextWrapper>
-            <SecondImage
-              src="/profile_2.png"
-              alt="Image"
-              width={40}
-              height={40}
-            />
-            <NameWrapper>
-              <NameText>Jennie</NameText>
-            </NameWrapper>
-          </ImageTextWrapper>
-          <MiniBoxWrapper>
-            <BoxOne>0</BoxOne>
-            <BoxTwo>2</BoxTwo>
-          </MiniBoxWrapper>
-        </SecondBoxWrapper>
 
-        <SecondBoxWrapper>
-          <ImageTextWrapper>
-            <SecondImage
-              src="/profile_3.png"
-              alt="Image"
-              width={40}
-              height={40}
-            />
-            <NameWrapper>
-              <NameText>Rose</NameText>
-            </NameWrapper>
-          </ImageTextWrapper>
-          <MiniBoxWrapper>
-            <BoxOne>0</BoxOne>
-            <BoxTwo>0</BoxTwo>
-          </MiniBoxWrapper>
-        </SecondBoxWrapper>
-
-        <SecondBoxWrapper>
-          <ImageTextWrapper>
-            <SecondImage
-              src="/profile_4.png"
-              alt="Image"
-              width={40}
-              height={40}
-            />
-            <NameWrapper>
-              <NameText>MashMellow</NameText>
-            </NameWrapper>
-          </ImageTextWrapper>
-          <MiniBoxWrapper>
-            <BoxOne>0</BoxOne>
-            <BoxTwo>5</BoxTwo>
-          </MiniBoxWrapper>
-        </SecondBoxWrapper>
+        {courierData.map(({ id, img, name, completeJob, assignJob }) => (
+          <SecondBoxWrapper key={id}>
+            <ImageTextWrapper>
+              <SecondImage src={img} alt="Image" width={40} height={40} />
+              <NameWrapper>
+                <NameText>{name}</NameText>
+              </NameWrapper>
+            </ImageTextWrapper>
+            <MiniBoxWrapper>
+              <BoxOne>{completeJob}</BoxOne>
+              <BoxTwo>{assignJob}</BoxTwo>
+            </MiniBoxWrapper>
+          </SecondBoxWrapper>
+        ))}
       </SecondHeaderWrapper>
 
       <ThirdHeaderWrapper>
@@ -298,6 +282,7 @@ const BoxWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   cursor: pointer;
+  margin-top: 10px;
 `;
 
 const ImageWrapper = styled.div`
