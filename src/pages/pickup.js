@@ -27,8 +27,13 @@ const pickup = () => {
   const [click, setClick] = useState(true);
   const [barClick, setBarClick] = useState(true);
   const [box, setBox] = useState(null);
+  const [courierInfo, setCourierInfo] = useState(null);
 
   console.log(box);
+  if (box) {
+    box.courierInfo = courierInfo ? courierInfo : null;
+    console.log(box.courierInfo);
+  }
 
   return (
     <Wrapper>
@@ -74,20 +79,6 @@ const pickup = () => {
                 </TimeWrapper>
               </BoxWrapper>
             ))}
-            {/* <BoxWrapper onClick={() => setClick(false)}>
-              <BoxLocationWrapper>
-                <ImageWrapper>
-                  <Image src="/box.png" alt="Box" width={35} height={35} />
-                </ImageWrapper>
-                <IdLocationWrapper>
-                  <IdText>PK000118052021</IdText>
-                  <LocationText>Hlaing, Yangon</LocationText>
-                </IdLocationWrapper>
-              </BoxLocationWrapper>
-              <TimeWrapper>
-                <TimeText>18 May 2021, 2:00 to 3:00 pm</TimeText>
-              </TimeWrapper>
-            </BoxWrapper> */}
           </>
         ) : box ? (
           <>
@@ -125,6 +116,24 @@ const pickup = () => {
             ))}
 
             <BikeIconWrapper>
+              {box.courierInfo !== null ? (
+                <CourierImageTextWrapper>
+                  <SecondImage
+                    src={box.courierInfo.img}
+                    alt="Image"
+                    width={40}
+                    height={40}
+                  />
+                  <CourierNameWrapper>
+                    <CourierNameText>{box.courierInfo.name}</CourierNameText>
+                    <CourierStatusText>
+                      {box.courierInfo.status}
+                    </CourierStatusText>
+                  </CourierNameWrapper>
+                </CourierImageTextWrapper>
+              ) : (
+                <div></div>
+              )}
               <BikeIconContainer>
                 <BikeIcon />
               </BikeIconContainer>
@@ -149,20 +158,33 @@ const pickup = () => {
           </SecondSearchWrapper>
         </SecondHeaderContainer>
 
-        {courierData.map(({ id, img, name, completeJob, assignJob }) => (
-          <SecondBoxWrapper key={id}>
-            <ImageTextWrapper>
-              <SecondImage src={img} alt="Image" width={40} height={40} />
-              <NameWrapper>
-                <NameText>{name}</NameText>
-              </NameWrapper>
-            </ImageTextWrapper>
-            <MiniBoxWrapper>
-              <BoxOne>{completeJob}</BoxOne>
-              <BoxTwo>{assignJob}</BoxTwo>
-            </MiniBoxWrapper>
-          </SecondBoxWrapper>
-        ))}
+        {courierData.map(
+          ({ id, img, name, status, completeJob, assignJob }) => (
+            <SecondBoxWrapper
+              key={id}
+              onClick={() =>
+                box ? setCourierInfo({ img, name, status }) : null
+              }
+            >
+              {/* // <SecondBoxWrapper
+            //   key={id}
+            //   onClick={() =>
+            //     box ? box.courierInfo({ img, name, status }) : null
+            //   }
+            // > */}
+              <ImageTextWrapper>
+                <SecondImage src={img} alt="Image" width={40} height={40} />
+                <NameWrapper>
+                  <NameText>{name}</NameText>
+                </NameWrapper>
+              </ImageTextWrapper>
+              <MiniBoxWrapper>
+                <BoxOne>{completeJob}</BoxOne>
+                <BoxTwo>{assignJob}</BoxTwo>
+              </MiniBoxWrapper>
+            </SecondBoxWrapper>
+          )
+        )}
       </SecondHeaderWrapper>
 
       <ThirdHeaderWrapper>
@@ -533,7 +555,7 @@ const CustomerPhno = styled.div`
 
 const BikeIconWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
 
 const BikeIconContainer = styled.div`
@@ -587,4 +609,27 @@ const CancelButton = styled.button`
   border-radius: 3px;
   appearance: none;
   cursor: pointer;
+`;
+
+const CourierImageTextWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 5px 8px 0;
+`;
+
+const CourierNameWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+`;
+
+const CourierNameText = styled.div`
+  font-family: "Poppins-Bold";
+  font-size: 12px;
+`;
+
+const CourierStatusText = styled.div`
+  font-family: "Poppins-Regular";
+  font-size: 12px;
 `;
