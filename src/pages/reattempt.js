@@ -14,6 +14,7 @@ import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 
 const reattempt = () => {
   const [click, setClick] = useState(false);
+  const [barClick, setBarClick] = useState(true);
 
   return (
     <Wrapper>
@@ -26,11 +27,13 @@ const reattempt = () => {
           </SearchWrapper>
         </HeaderContainer>
         <FirstMiddleWrapper>
-          <CanceledWrapper>
+          <CanceledWrapper onClick={() => setBarClick(true)}>
             <CanceledText>Canceled</CanceledText>
+            {barClick ? <UnderBar /> : null}
           </CanceledWrapper>
-          <IncompleteWrapper>
+          <IncompleteWrapper onClick={() => setBarClick(false)}>
             <IncompleteText>Incomplete</IncompleteText>
+            {!barClick ? <UnderBar /> : null}
           </IncompleteWrapper>
         </FirstMiddleWrapper>
         <BoxWrapper onClick={() => setClick(true)}>
@@ -215,14 +218,22 @@ const FirstMiddleWrapper = styled.div`
   margin-bottom: 5px;
 `;
 
+const UnderBar = styled.div`
+  width: 80%;
+  height: 2px;
+  background-color: red;
+  margin-top: 2px;
+`;
+
 const CanceledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 10px;
   cursor: pointer;
+  align-items: center;
 `;
 
-const CanceledText = styled.p`
+const CanceledText = styled.div`
   font-size: 12px;
   font-family: "Poppins-Regular";
 `;
@@ -231,9 +242,10 @@ const IncompleteWrapper = styled.div`
   flex-direction: column;
   margin-left: 10px;
   cursor: pointer;
+  align-items: center;
 `;
 
-const IncompleteText = styled.p`
+const IncompleteText = styled.div`
   font-size: 12px;
   font-family: "Poppins-Regular";
 `;

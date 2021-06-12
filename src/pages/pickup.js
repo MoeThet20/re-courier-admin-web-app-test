@@ -23,6 +23,7 @@ const pickup = () => {
   });
 
   const [click, setClick] = useState(true);
+  const [barClick, setBarClick] = useState(true);
 
   return (
     <Wrapper>
@@ -37,11 +38,13 @@ const pickup = () => {
               </SearchWrapper>
             </HeaderContainer>
             <FirstMiddleWrapper>
-              <UnassignedWrapper>
+              <UnassignedWrapper onClick={() => setBarClick(true)}>
                 <UnassignedText>Unassigned</UnassignedText>
+                {barClick ? <UnderBar /> : null}
               </UnassignedWrapper>
-              <AssignedWrapper>
+              <AssignedWrapper onClick={() => setBarClick(false)}>
                 <AssignedText>Assigned</AssignedText>
+                {!barClick ? <UnderBar /> : null}
               </AssignedWrapper>
             </FirstMiddleWrapper>
             <BoxWrapper onClick={() => setClick(false)}>
@@ -256,16 +259,24 @@ const Search = styled(SearchIcon)`
 const FirstMiddleWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  margin-bottom: 15px;
 `;
 
+const UnderBar = styled.div`
+  width: 80%;
+  height: 2px;
+  background-color: red;
+  margin-top: 2px;
+`;
 const UnassignedWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 10px;
   cursor: pointer;
+  align-items: center;
 `;
 
-const UnassignedText = styled.p`
+const UnassignedText = styled.div`
   font-size: 12px;
   font-family: "Poppins-Regular";
 `;
@@ -274,9 +285,10 @@ const AssignedWrapper = styled.div`
   flex-direction: column;
   margin-left: 10px;
   cursor: pointer;
+  align-items: center;
 `;
 
-const AssignedText = styled.p`
+const AssignedText = styled.div`
   font-size: 12px;
   font-family: "Poppins-Regular";
 `;
@@ -356,14 +368,18 @@ const SecondBoxWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10px;
+  margin: 10px 30px 0 0;
   cursor: pointer;
+  &:hover {
+    box-shadow: 3px 2px 3px 2px #888888;
+    border-radius: 5px;
+  }
 `;
 
 const ImageTextWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 8px 5px 8px 0;
+  padding: 8px 5px 8px 5px;
 `;
 
 const SecondImage = styled(Image)`
@@ -383,7 +399,7 @@ const NameText = styled.p`
 const MiniBoxWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 65px;
+  margin-right: 10px;
 `;
 
 const BoxOne = styled.p`
