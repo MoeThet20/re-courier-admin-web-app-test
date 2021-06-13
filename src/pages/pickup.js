@@ -10,7 +10,7 @@ import EventOutlinedIcon from "@material-ui/icons/EventOutlined";
 import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import TwoWheelerIcon from "@material-ui/icons/TwoWheeler";
 
-import { courierData, clientData } from "constants/Data";
+import { courierData, clientData, clientData_2 } from "constants/Data";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoibW9lLXRoZXQiLCJhIjoiY2tvanRrOW5rMHhyZTJ3anp2NWw2ZnAzaCJ9.MjAsSE5-apWBbqbVa_oQBQ";
@@ -30,14 +30,17 @@ const pickup = () => {
   const [courierInfo, setCourierInfo] = useState(null);
 
   console.log(box);
+
   if (box) {
-    box.courierInfo = courierInfo ? courierInfo : null;
-    console.log(box.courierInfo);
+    // Need to change something in here
+    if (box.courierInfo == null) {
+      box.courierInfo = courierInfo ? courierInfo : null;
+    }
   }
 
   return (
     <Wrapper>
-      <FirstHeaderWrapper>
+      <FirstHeaderWrapper click={barClick}>
         {click ? (
           <>
             <HeaderContainer>
@@ -57,28 +60,67 @@ const pickup = () => {
                 {!barClick ? <UnderBar /> : null}
               </AssignedWrapper>
             </FirstMiddleWrapper>
-            {clientData.map((data) => (
-              <BoxWrapper
-                onClick={() => {
-                  setBox(data);
-                  setClick(false);
-                }}
-                key={data.id}
-              >
-                <BoxLocationWrapper>
-                  <ImageWrapper>
-                    <Image src="/box.png" alt="Box" width={35} height={35} />
-                  </ImageWrapper>
-                  <IdLocationWrapper>
-                    <IdText>{data.PickupID}</IdText>
-                    <LocationText>Hlaing, Yangon</LocationText>
-                  </IdLocationWrapper>
-                </BoxLocationWrapper>
-                <TimeWrapper>
-                  <TimeText>{data.PickupDate}</TimeText>
-                </TimeWrapper>
-              </BoxWrapper>
-            ))}
+            {barClick
+              ? clientData.map((data) => (
+                  <BoxWrapper
+                    onClick={() => {
+                      setBox(data);
+                      setClick(false);
+                    }}
+                    key={data.id}
+                  >
+                    <BoxLocationWrapper>
+                      <ImageWrapper>
+                        <Image
+                          src="/box.png"
+                          alt="Box"
+                          width={35}
+                          height={35}
+                        />
+                      </ImageWrapper>
+                      <IdLocationWrapper>
+                        <IdText>{data.PickupID}</IdText>
+                        <LocationText>Hlaing, Yangon</LocationText>
+                      </IdLocationWrapper>
+                    </BoxLocationWrapper>
+                    <TimeWrapper>
+                      <TimeText>{data.PickupDate}</TimeText>
+                    </TimeWrapper>
+                  </BoxWrapper>
+                ))
+              : null}
+            {!barClick
+              ? clientData_2.map((data) => (
+                  <BoxWrapper
+                    onClick={() => {
+                      setBox(data);
+                      setClick(false);
+                    }}
+                    key={data.id}
+                  >
+                    <BoxLocationWrapper>
+                      <ImageWrapper>
+                        <SecondImage
+                          src={data.courierInfo?.img}
+                          alt="Image"
+                          width={35}
+                          height={35}
+                        />
+                      </ImageWrapper>
+                      <IdLocationWrapper>
+                        <IdText>{data.PickupID}</IdText>
+                        <LocationText>Hlaing, Yangon</LocationText>
+                      </IdLocationWrapper>
+                    </BoxLocationWrapper>
+                    <TimeWrapper>
+                      <TimeText>{data.PickupDate}</TimeText>
+                    </TimeWrapper>
+                    <StatusWrapper>
+                      <StatusText>Pending</StatusText>
+                    </StatusWrapper>
+                  </BoxWrapper>
+                ))
+              : null}
           </>
         ) : box ? (
           <>
@@ -104,7 +146,7 @@ const pickup = () => {
               <NoteIcon />
               <NoteText>-</NoteText>
             </NoteWrapper>
-            {box.clientInfo.map(({ id, name, img, shopName, PhoneNo }) => (
+            {box.clientInfo?.map(({ id, name, img, shopName, PhoneNo }) => (
               <SecondImageTextWrapper key={id}>
                 <SecondImage src={img} alt="Image" width={40} height={40} />
                 <CustomerInfoWrapper>
@@ -116,7 +158,7 @@ const pickup = () => {
             ))}
 
             <BikeIconWrapper>
-              {box.courierInfo !== null ? (
+              {/* {box.courierInfo !== null ? (  //Need to fix
                 <CourierImageTextWrapper>
                   <SecondImage
                     src={box.courierInfo.img}
@@ -133,7 +175,7 @@ const pickup = () => {
                 </CourierImageTextWrapper>
               ) : (
                 <div></div>
-              )}
+              )} */}
               <BikeIconContainer>
                 <BikeIcon />
               </BikeIconContainer>
@@ -149,43 +191,45 @@ const pickup = () => {
         ) : null}
       </FirstHeaderWrapper>
 
-      <SecondHeaderWrapper>
-        <SecondHeaderContainer>
-          <Title>Courier</Title>
-          <SecondSearchWrapper>
-            <SecondSearchBar type="text" placeholder="Pickup No" />
-            <Search />
-          </SecondSearchWrapper>
-        </SecondHeaderContainer>
+      {barClick ? (
+        <SecondHeaderWrapper>
+          <SecondHeaderContainer>
+            <Title>Courier</Title>
+            <SecondSearchWrapper>
+              <SecondSearchBar type="text" placeholder="Pickup No" />
+              <Search />
+            </SecondSearchWrapper>
+          </SecondHeaderContainer>
 
-        {courierData.map(
-          ({ id, img, name, status, completeJob, assignJob }) => (
-            <SecondBoxWrapper
-              key={id}
-              onClick={() =>
-                box ? setCourierInfo({ img, name, status }) : null
-              }
-            >
-              {/* // <SecondBoxWrapper
+          {courierData.map(
+            ({ id, img, name, status, completeJob, assignJob }) => (
+              <SecondBoxWrapper
+                key={id}
+                onClick={() =>
+                  box ? setCourierInfo({ img, name, status }) : null
+                }
+              >
+                {/* // <SecondBoxWrapper
             //   key={id}
             //   onClick={() =>
             //     box ? box.courierInfo({ img, name, status }) : null
             //   }
             // > */}
-              <ImageTextWrapper>
-                <SecondImage src={img} alt="Image" width={40} height={40} />
-                <NameWrapper>
-                  <NameText>{name}</NameText>
-                </NameWrapper>
-              </ImageTextWrapper>
-              <MiniBoxWrapper>
-                <BoxOne>{completeJob}</BoxOne>
-                <BoxTwo>{assignJob}</BoxTwo>
-              </MiniBoxWrapper>
-            </SecondBoxWrapper>
-          )
-        )}
-      </SecondHeaderWrapper>
+                <ImageTextWrapper>
+                  <SecondImage src={img} alt="Image" width={40} height={40} />
+                  <NameWrapper>
+                    <NameText>{name}</NameText>
+                  </NameWrapper>
+                </ImageTextWrapper>
+                <MiniBoxWrapper>
+                  <BoxOne>{completeJob}</BoxOne>
+                  <BoxTwo>{assignJob}</BoxTwo>
+                </MiniBoxWrapper>
+              </SecondBoxWrapper>
+            )
+          )}
+        </SecondHeaderWrapper>
+      ) : null}
 
       <ThirdHeaderWrapper>
         <Title>Map</Title>
@@ -212,7 +256,7 @@ const Wrapper = styled.div`
   flex-direction: row;
 `;
 const FirstHeaderWrapper = styled.div`
-  width: 28%;
+  width: ${({ click }) => (click ? "28%" : "40%")};
   height: 50rem;
   align-items: flex-start;
   background-color: white;
@@ -632,4 +676,17 @@ const CourierNameText = styled.div`
 const CourierStatusText = styled.div`
   font-family: "Poppins-Regular";
   font-size: 12px;
+`;
+
+const StatusWrapper = styled.div`
+  margin-right: 10px;
+`;
+
+const StatusText = styled.p`
+  font-family: "Poppins-Regular";
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: yellow;
+  border-radius: 3px;
+  padding: 2px 15px;
 `;

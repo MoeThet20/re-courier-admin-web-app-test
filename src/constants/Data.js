@@ -62,3 +62,48 @@ export const clientData = [
     courierInfo: {},
   },
 ];
+
+export const clientData_2 = [
+  {
+    id: "3",
+    PickupID: "PK000118052025",
+    PickupTime: "17 May 2021, 2:05 PM",
+    Address: " MaharSwe Street, Hlaing, Yangon",
+    PickupDate: "19 May 2021, 10:00 to 11:00 am",
+    clientInfo: [
+      {
+        id: "1",
+        name: "Rose",
+        img: "/profile_3.png",
+        shopName: "Rose Online Shop",
+        PhoneNo: "09797122458",
+      },
+    ],
+    courierInfo: {
+      img: "/profile_4.png",
+      name: "MashMellow",
+      status: "on duty",
+    },
+  },
+  {
+    id: "4",
+    PickupID: "PK000118052024",
+    PickupTime: "17 May 2021, 2:05 PM",
+    Address: " MaharSwe Street, Hlaing, Yangon",
+    PickupDate: "19 May 2021, 10:00 to 11:00 am",
+    clientInfo: [
+      {
+        id: "1",
+        name: "Jennie",
+        img: "/profile_2.png",
+        shopName: "Jennie Online Shop",
+        PhoneNo: "09797122458",
+      },
+    ],
+    courierInfo: {
+      img: "/profile_3.png",
+      name: "Rose",
+      status: "on duty",
+    },
+  },
+];
