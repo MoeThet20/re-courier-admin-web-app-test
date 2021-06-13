@@ -7,6 +7,7 @@ import SearchIcon from "@material-ui/icons/Search";
 const waybill = () => {
   const [click, setClick] = useState(false);
   const [barClick, setBarClick] = useState(true);
+  const [checked, setChecked] = useState(false);
 
   return (
     <Wrapper>
@@ -145,9 +146,66 @@ const waybill = () => {
                 <InputLabel>Weight (Kg)</InputLabel>
                 <WeightInputSection />
               </WeightInputWrapper>
-              <Button>+</Button>
-              <Button>-</Button>
+              <InDeButtonWrapper>
+                <Button>+</Button>
+                <Button>-</Button>
+              </InDeButtonWrapper>
             </WeightWrapper>
+            <PaymentWrapper>
+              <SecondDropDownWrapper>
+                <InputLabel>Payment By</InputLabel>
+                <PaymentDropDownContainer>
+                  <option value="receiver">Receiver</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </PaymentDropDownContainer>
+              </SecondDropDownWrapper>
+
+              <SecondDropDownWrapper>
+                <InputLabel>Payment Type</InputLabel>
+                <PaymentDropDownContainer>
+                  <option value="postpaid">Postpaid</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </PaymentDropDownContainer>
+              </SecondDropDownWrapper>
+            </PaymentWrapper>
+
+            <CODWrapper onClick={() => setChecked(!checked)}>
+              <StyledCheckbox checked={checked}>
+                {checked ? (
+                  <Icon viewBox="0 0 24 24">
+                    <polyline points="20 6 9 17 4 12 " />
+                  </Icon>
+                ) : null}
+              </StyledCheckbox>
+              <CheckboxTitle>COD</CheckboxTitle>
+            </CODWrapper>
+            <PackageWrapper>
+              <InputLabel>Package Photo</InputLabel>
+              <Image
+                src="/profile_4.png"
+                alt="Image"
+                width={230}
+                height={130}
+              />
+            </PackageWrapper>
+            <InputSectionWrapper>
+              <InputLabel>Pieces [Optional]</InputLabel>
+              <SecondInputSection />
+            </InputSectionWrapper>
+
+            <InputSectionWrapper>
+              <InputLabel>Special Instruction [Optional]</InputLabel>
+              <TextareaInputSection />
+            </InputSectionWrapper>
+
+            <ButtonWrapper>
+              <ConfirmButton>Confirm</ConfirmButton>
+              <CancelButton>Cancel</CancelButton>
+            </ButtonWrapper>
           </RightSectionWrapper>
         </SecondSectionWrapper>
       </SecondHeaderWrapper>
@@ -164,7 +222,7 @@ const Wrapper = styled.div`
 `;
 const FirstHeaderWrapper = styled.div`
   width: 40%;
-  height: 50rem;
+  height: 60rem;
   align-items: flex-start;
   background-color: white;
   box-shadow: 10px 0 3px -10px #888;
@@ -308,8 +366,7 @@ const SecondHeaderWrapper = styled.div`
   align-items: flex-start;
   background-color: white;
   flex-direction: column;
-  padding-left: 30px;
-  margin-left: 10px;
+  margin-left: 40px;
 `;
 
 const SecondHeaderContainer = styled.div`
@@ -337,12 +394,14 @@ const LeftSectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 10px;
+  width: 350px;
 `;
 
 const RightSectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 10px;
+  width: 350px;
 `;
 
 const ImageTextWrapper = styled.div`
@@ -387,6 +446,7 @@ const InputLabel = styled.div`
 `;
 
 const InputSection = styled.input`
+  width: 100%;
   padding: 3px 15px;
   border-radius: 3px;
   font-size: 16px;
@@ -401,7 +461,7 @@ const SecondInputSection = styled(InputSection)`
 `;
 
 const TextareaInputSection = styled.textarea`
-  width: 99%;
+  width: 100%;
   height: 100%;
   border-radius: 3px;
   padding: 15px;
@@ -439,7 +499,7 @@ const SecondDropDownContainer = styled.select`
   border-radius: 3px;
   font-family: "Poppins-Regular";
   font-size: 12px;
-  width: 235px;
+  width: 100%;
 `;
 
 const SecondDropDownWrapper = styled.div`
@@ -455,7 +515,9 @@ const WeightWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+  justify-content: space-between;
   margin-top: 1px;
+  width: 100%;
 `;
 
 const WeightInputSection = styled.input`
@@ -464,7 +526,10 @@ const WeightInputSection = styled.input`
   font-size: 16px;
   border: 1.5px solid gray;
   font-family: "Poppins-Regular";
-  width: 100%;
+`;
+
+const InDeButtonWrapper = styled.div`
+  display: flex;
 `;
 
 const Button = styled.button`
@@ -478,4 +543,86 @@ const Button = styled.button`
   appearance: none;
   cursor: pointer;
   margin-left: 10px;
+`;
+
+const PaymentWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const PaymentDropDownContainer = styled.select`
+  padding: 6.5px 85px 6.5px 2px;
+  border-radius: 3px;
+  font-family: "Poppins-Regular";
+  font-size: 12px;
+  width: 100%;
+`;
+
+export const CODWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 28px;
+`;
+
+export const StyledCheckbox = styled.div`
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #000;
+  /* background: ${(props) => (props.checked ? "salmon" : "white")}; */
+  background-color: white;
+  border-radius: 2px;
+  transition: all 150ms;
+`;
+
+export const CheckboxTitle = styled.div`
+  font-family: "Poppins-Regular";
+  font-size: 14px;
+  margin-left: 5px;
+`;
+
+export const Icon = styled.svg`
+  fill: none;
+  stroke: black;
+  stroke-width: 3px;
+  padding-bottom: 3px;
+`;
+
+export const PackageWrapper = styled.div`
+  margin-top: 10px;
+  width: 100%;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  margin-top: 30px;
+  justify-content: space-between;
+`;
+
+const ConfirmButton = styled.button`
+  padding: 6px 30px;
+  color: white;
+  font-family: "Poppins-Regular";
+  font-size: 12px;
+  background-color: #0a5687;
+  border: 0px;
+  border-radius: 3px;
+  appearance: none;
+  cursor: pointer;
+  width: 47%;
+`;
+
+const CancelButton = styled.button`
+  padding: 6px 30px;
+  color: white;
+  font-family: "Poppins-Regular";
+  font-size: 12px;
+  background-color: #ee1c25;
+  border: 0px;
+  border-radius: 3px;
+  appearance: none;
+  cursor: pointer;
+  width: 47%;
 `;
