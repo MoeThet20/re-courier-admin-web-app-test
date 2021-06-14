@@ -3,11 +3,13 @@ import styled from "styled-components";
 import Image from "next/image";
 
 import SearchIcon from "@material-ui/icons/Search";
+import { pickedData } from "constants/Data";
 
 const waybill = () => {
   const [click, setClick] = useState(false);
   const [barClick, setBarClick] = useState(true);
   const [checked, setChecked] = useState(false);
+  const [box, setBox] = useState(null);
 
   return (
     <Wrapper>
@@ -37,178 +39,174 @@ const waybill = () => {
             {!barClick ? <UnderBar /> : null}
           </CreatedWrapper>
         </FirstMiddleWrapper>
-        <BoxWrapper onClick={() => setClick(true)}>
-          <BoxLocationWrapper>
-            <ImageWrapper>
-              <Image src="/box.png" alt="Box" width={35} height={35} />
-            </ImageWrapper>
-            <IdLocationWrapper>
-              <IdText>YGN0012550521YGN</IdText>
-              <LocationText>Hlaing, Yangon</LocationText>
-            </IdLocationWrapper>
-          </BoxLocationWrapper>
-          <TimeWrapper>
-            <TimeText>18 May 2021, 2:00 to 3:00 pm</TimeText>
-          </TimeWrapper>
-        </BoxWrapper>
-
-        <BoxWrapper onClick={() => setClick(true)}>
-          <BoxLocationWrapper>
-            <ImageWrapper>
-              <Image src="/box.png" alt="Box" width={35} height={35} />
-            </ImageWrapper>
-            <IdLocationWrapper>
-              <IdText>YGN0012550522YGN</IdText>
-              <LocationText>Hlaing, Yangon</LocationText>
-            </IdLocationWrapper>
-          </BoxLocationWrapper>
-          <TimeWrapper>
-            <TimeText>18 May 2021, 2:00 to 3:00 pm</TimeText>
-          </TimeWrapper>
-        </BoxWrapper>
+        {pickedData.map((data) => (
+          <BoxWrapper
+            onClick={() => {
+              setBox(data);
+              setClick(!click);
+            }}
+            key={data.id}
+          >
+            <BoxLocationWrapper>
+              <ImageWrapper>
+                <Image src="/box.png" alt="Box" width={35} height={35} />
+              </ImageWrapper>
+              <IdLocationWrapper>
+                <IdText>{data.pickedID}</IdText>
+                <LocationText>{data.address}</LocationText>
+              </IdLocationWrapper>
+            </BoxLocationWrapper>
+            <TimeWrapper>
+              <TimeText>{data.pickedDate}</TimeText>
+            </TimeWrapper>
+          </BoxWrapper>
+        ))}
       </FirstHeaderWrapper>
-
-      <SecondHeaderWrapper>
-        <SecondHeaderContainer>
-          <SecondTitle>YGN0012550521YGN</SecondTitle>
-          <DayText>Same Day</DayText>
-        </SecondHeaderContainer>
-        <SecondSectionWrapper>
-          <LeftSectionWrapper>
-            <ImageTextWrapper>
-              <ImageHolder
-                src="/profile_2.png"
-                alt="Image"
-                width={50}
-                height={50}
-              />
-              <CustomerInfoWrapper>
-                <CustomerName>Jennie</CustomerName>
-                <CustomerShopName>Pink Pink Online Shop</CustomerShopName>
-                <CustomerPhno>09797122458</CustomerPhno>
-              </CustomerInfoWrapper>
-            </ImageTextWrapper>
-            <InputSectionWrapper>
-              <InputLabel>Mobile</InputLabel>
-              <InputSection />
-            </InputSectionWrapper>
-            <InputSectionWrapper>
-              <InputLabel>Name</InputLabel>
-              <SecondInputSection />
-            </InputSectionWrapper>
-            <InputSectionWrapper>
-              <InputLabel>City</InputLabel>
-              <SecondInputSection />
-            </InputSectionWrapper>
-            <InputSectionWrapper>
-              <InputLabel>Township</InputLabel>
-              <SecondInputSection />
-            </InputSectionWrapper>
-            <InputSectionWrapper>
-              <InputLabel>Address</InputLabel>
-              <TextareaInputSection />
-            </InputSectionWrapper>
-          </LeftSectionWrapper>
-          <RightSectionWrapper>
-            <CourierImageTextWrapper>
-              <ImageHolder
-                src="/profile_4.png"
-                alt="Image"
-                width={50}
-                height={50}
-              />
-              <CourierInfoWrapper>
-                <CourierName>Soe Moe</CourierName>
-                <CourierDate>18 May 2021, 2:14 pm</CourierDate>
-              </CourierInfoWrapper>
-            </CourierImageTextWrapper>
-            <SecondDropDownWrapper>
-              <InputLabel>To City</InputLabel>
-              <SecondDropDownContainer>
-                <option value="yangon">Yangon</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </SecondDropDownContainer>
-            </SecondDropDownWrapper>
-
-            <SecondDropDownWrapper>
-              <InputLabel>Service Type</InputLabel>
-              <SecondDropDownContainer>
-                <option value="same">Same Day</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </SecondDropDownContainer>
-            </SecondDropDownWrapper>
-            <WeightWrapper>
-              <WeightInputWrapper>
-                <InputLabel>Weight (Kg)</InputLabel>
-                <WeightInputSection />
-              </WeightInputWrapper>
-              <InDeButtonWrapper>
-                <Button>+</Button>
-                <Button>-</Button>
-              </InDeButtonWrapper>
-            </WeightWrapper>
-            <PaymentWrapper>
+      {box ? (
+        <SecondHeaderWrapper>
+          <SecondHeaderContainer>
+            <SecondTitle>{box.pickedID}</SecondTitle>
+            <DayText>Same Day</DayText>
+          </SecondHeaderContainer>
+          <SecondSectionWrapper>
+            <LeftSectionWrapper>
+              <ImageTextWrapper>
+                <ImageHolder
+                  src={box.customerInfo.img}
+                  alt="Image"
+                  width={50}
+                  height={50}
+                />
+                <CustomerInfoWrapper>
+                  <CustomerName>{box.customerInfo.name}</CustomerName>
+                  <CustomerShopName>
+                    {box.customerInfo.shopName}
+                  </CustomerShopName>
+                  <CustomerPhno>{box.customerInfo.phoneNo}</CustomerPhno>
+                </CustomerInfoWrapper>
+              </ImageTextWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Mobile</InputLabel>
+                <InputSection />
+              </InputSectionWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Name</InputLabel>
+                <SecondInputSection />
+              </InputSectionWrapper>
+              <InputSectionWrapper>
+                <InputLabel>City</InputLabel>
+                <SecondInputSection />
+              </InputSectionWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Township</InputLabel>
+                <SecondInputSection />
+              </InputSectionWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Address</InputLabel>
+                <TextareaInputSection />
+              </InputSectionWrapper>
+            </LeftSectionWrapper>
+            <RightSectionWrapper>
+              <CourierImageTextWrapper>
+                <ImageHolder
+                  src={box.deliveryInfo.img}
+                  alt="Image"
+                  width={50}
+                  height={50}
+                />
+                <CourierInfoWrapper>
+                  <CourierName>{box.deliveryInfo.name}</CourierName>
+                  <CourierDate>18 May 2021, 2:14 pm</CourierDate>
+                </CourierInfoWrapper>
+              </CourierImageTextWrapper>
               <SecondDropDownWrapper>
-                <InputLabel>Payment By</InputLabel>
-                <PaymentDropDownContainer>
-                  <option value="receiver">Receiver</option>
+                <InputLabel>To City</InputLabel>
+                <SecondDropDownContainer>
+                  <option value="yangon">Yangon</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
-                </PaymentDropDownContainer>
+                </SecondDropDownContainer>
               </SecondDropDownWrapper>
 
               <SecondDropDownWrapper>
-                <InputLabel>Payment Type</InputLabel>
-                <PaymentDropDownContainer>
-                  <option value="postpaid">Postpaid</option>
+                <InputLabel>Service Type</InputLabel>
+                <SecondDropDownContainer>
+                  <option value="same">Same Day</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
-                </PaymentDropDownContainer>
+                </SecondDropDownContainer>
               </SecondDropDownWrapper>
-            </PaymentWrapper>
+              <WeightWrapper>
+                <WeightInputWrapper>
+                  <InputLabel>Weight (Kg)</InputLabel>
+                  <WeightInputSection value={box.deliveryInfo.weight} />
+                </WeightInputWrapper>
+                <InDeButtonWrapper>
+                  <Button>+</Button>
+                  <Button>-</Button>
+                </InDeButtonWrapper>
+              </WeightWrapper>
+              <PaymentWrapper>
+                <SecondDropDownWrapper>
+                  <InputLabel>Payment By</InputLabel>
+                  <PaymentDropDownContainer>
+                    <option value="receiver">Receiver</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </PaymentDropDownContainer>
+                </SecondDropDownWrapper>
 
-            <CODWrapper onClick={() => setChecked(!checked)}>
-              <StyledCheckbox checked={checked}>
-                {checked ? (
-                  <Icon viewBox="0 0 24 24">
-                    <polyline points="20 6 9 17 4 12 " />
-                  </Icon>
-                ) : null}
-              </StyledCheckbox>
-              <CheckboxTitle>COD</CheckboxTitle>
-            </CODWrapper>
-            <PackageWrapper>
-              <InputLabel>Package Photo</InputLabel>
-              <Image
-                src="/profile_4.png"
-                alt="Image"
-                width={230}
-                height={130}
-              />
-            </PackageWrapper>
-            <InputSectionWrapper>
-              <InputLabel>Pieces [Optional]</InputLabel>
-              <SecondInputSection />
-            </InputSectionWrapper>
+                <SecondDropDownWrapper>
+                  <InputLabel>Payment Type</InputLabel>
+                  <PaymentDropDownContainer>
+                    <option value="postpaid">Postpaid</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </PaymentDropDownContainer>
+                </SecondDropDownWrapper>
+              </PaymentWrapper>
 
-            <InputSectionWrapper>
-              <InputLabel>Special Instruction [Optional]</InputLabel>
-              <TextareaInputSection />
-            </InputSectionWrapper>
+              <CODWrapper onClick={() => setChecked(!checked)}>
+                <StyledCheckbox checked={checked}>
+                  {checked ? (
+                    <Icon viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12 " />
+                    </Icon>
+                  ) : null}
+                </StyledCheckbox>
+                <CheckboxTitle>COD</CheckboxTitle>
+              </CODWrapper>
+              <PackageWrapper>
+                <InputLabel>Package Photo</InputLabel>
+                <Image
+                  src="/profile_4.png"
+                  alt="Image"
+                  width={230}
+                  height={130}
+                />
+              </PackageWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Pieces [Optional]</InputLabel>
+                <SecondInputSection />
+              </InputSectionWrapper>
 
-            <ButtonWrapper>
-              <ConfirmButton>Confirm</ConfirmButton>
-              <CancelButton>Cancel</CancelButton>
-            </ButtonWrapper>
-          </RightSectionWrapper>
-        </SecondSectionWrapper>
-      </SecondHeaderWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Special Instruction [Optional]</InputLabel>
+                <TextareaInputSection />
+              </InputSectionWrapper>
+
+              <ButtonWrapper>
+                <ConfirmButton>Confirm</ConfirmButton>
+                <CancelButton>Cancel</CancelButton>
+              </ButtonWrapper>
+            </RightSectionWrapper>
+          </SecondSectionWrapper>
+        </SecondHeaderWrapper>
+      ) : null}
     </Wrapper>
   );
 };
@@ -367,6 +365,7 @@ const SecondHeaderWrapper = styled.div`
   background-color: white;
   flex-direction: column;
   margin-left: 40px;
+  width: 700px;
 `;
 
 const SecondHeaderContainer = styled.div`
@@ -393,15 +392,14 @@ const SecondSectionWrapper = styled.div`
 const LeftSectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 10px;
-  width: 350px;
+  width: 100%;
 `;
 
 const RightSectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
-  width: 350px;
+  margin: 0 20px;
+  width: 100%;
 `;
 
 const ImageTextWrapper = styled.div`
@@ -526,6 +524,7 @@ const WeightInputSection = styled.input`
   font-size: 16px;
   border: 1.5px solid gray;
   font-family: "Poppins-Regular";
+  width: 100%;
 `;
 
 const InDeButtonWrapper = styled.div`

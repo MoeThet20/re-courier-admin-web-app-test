@@ -107,3 +107,48 @@ export const clientData_2 = [
     },
   },
 ];
+
+export const pickedData = [
+  {
+    id: "1",
+    pickedID: "YGN0012550521YGN",
+    address: "Hlaing, Yangon",
+    pickedDate: "18 May 2021, 2:00 to 3:00 pm",
+    customerInfo: {
+      name: "Rose Kay Khine",
+      img: "/profile_3.png",
+      shopName: "Pink Pink Online Shop",
+      phoneNo: "09797122458",
+    },
+    deliveryInfo: {
+      name: "Soe Moe",
+      img: "/profile_4.png",
+      toCity: "Yangon",
+      serviceType: "Same Day",
+      weight: 0.5,
+      paymentBy: "Receiver",
+      paymentType: "Postpaid",
+    },
+  },
+  {
+    id: "2",
+    pickedID: "YGN0012550526YGN",
+    address: "Hlaing, Yangon",
+    pickedDate: "18 May 2021, 2:00 to 3:00 pm",
+    customerInfo: {
+      name: "Jennie Kay Khine",
+      img: "/profile_2.png",
+      shopName: "Pink Pink Online Shop",
+      phoneNo: "09797122457",
+    },
+    deliveryInfo: {
+      name: "Moe Moe",
+      img: "/profile_3.png",
+      toCity: "Yangon",
+      serviceType: "Same Day",
+      weight: 0.5,
+      paymentBy: "Receiver",
+      paymentType: "Postpaid",
+    },
+  },
+];
