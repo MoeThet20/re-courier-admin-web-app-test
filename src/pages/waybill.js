@@ -3,13 +3,15 @@ import styled from "styled-components";
 import Image from "next/image";
 
 import SearchIcon from "@material-ui/icons/Search";
-import { pickedData } from "constants/Data";
+import { pickedData, createdData } from "constants/Data";
 
 const waybill = () => {
   const [click, setClick] = useState(false);
   const [barClick, setBarClick] = useState(true);
   const [checked, setChecked] = useState(false);
+  const [checked_2, setChecked_2] = useState(false);
   const [box, setBox] = useState(null);
+  const [box_2, setBox_2] = useState(null);
 
   return (
     <Wrapper>
@@ -39,30 +41,64 @@ const waybill = () => {
             {!barClick ? <UnderBar /> : null}
           </CreatedWrapper>
         </FirstMiddleWrapper>
-        {pickedData.map((data) => (
-          <BoxWrapper
-            onClick={() => {
-              setBox(data);
-              setClick(!click);
-            }}
-            key={data.id}
-          >
-            <BoxLocationWrapper>
-              <ImageWrapper>
-                <Image src="/box.png" alt="Box" width={35} height={35} />
-              </ImageWrapper>
-              <IdLocationWrapper>
-                <IdText>{data.pickedID}</IdText>
-                <LocationText>{data.address}</LocationText>
-              </IdLocationWrapper>
-            </BoxLocationWrapper>
-            <TimeWrapper>
-              <TimeText>{data.pickedDate}</TimeText>
-            </TimeWrapper>
-          </BoxWrapper>
-        ))}
+
+        {barClick
+          ? pickedData.map((data) => (
+              <BoxWrapper
+                onClick={() => {
+                  setBox(data);
+                  setClick(!click);
+                }}
+                key={data.id}
+              >
+                <BoxLocationWrapper>
+                  <ImageWrapper>
+                    <Image src="/box.png" alt="Box" width={35} height={35} />
+                  </ImageWrapper>
+                  <IdLocationWrapper>
+                    <IdText>{data.pickedID}</IdText>
+                    <LocationText>{data.address}</LocationText>
+                  </IdLocationWrapper>
+                </BoxLocationWrapper>
+                <TimeWrapper>
+                  <TimeText>{data.pickedDate}</TimeText>
+                </TimeWrapper>
+              </BoxWrapper>
+            ))
+          : createdData.map((data) => (
+              <BoxWrapper
+                onClick={() => {
+                  setBox_2(data);
+                  setChecked_2(!checked_2);
+                  setClick(!click);
+                }}
+                key={data.id}
+              >
+                <BoxLocationWrapper>
+                  <CreatedCheckboxWrapper>
+                    <StyledCheckbox checked={checked_2}>
+                      {checked_2 ? (
+                        <Icon viewBox="0 0 24 24">
+                          <polyline points="20 6 9 17 4 12 " />
+                        </Icon>
+                      ) : null}
+                    </StyledCheckbox>
+                  </CreatedCheckboxWrapper>
+
+                  <IdLocationWrapper>
+                    <IdText>{data.pickedID}</IdText>
+                    <LocationText>{data.address}</LocationText>
+                  </IdLocationWrapper>
+                </BoxLocationWrapper>
+                <TimeWrapper>
+                  <TimeText>
+                    {data.createdDate}, {data.createdStatus}
+                  </TimeText>
+                </TimeWrapper>
+              </BoxWrapper>
+            ))}
       </FirstHeaderWrapper>
-      {box ? (
+      {box && barClick ? (
         <SecondHeaderWrapper>
           <SecondHeaderContainer>
             <SecondTitle>{box.pickedID}</SecondTitle>
@@ -204,6 +240,146 @@ const waybill = () => {
                 <CancelButton>Cancel</CancelButton>
               </ButtonWrapper>
             </RightSectionWrapper>
+          </SecondSectionWrapper>
+        </SecondHeaderWrapper>
+      ) : null}
+      {box_2 && !barClick ? (
+        <SecondHeaderWrapper>
+          <SecondHeaderContainer>
+            <SecondTitle>{box_2.pickedID}</SecondTitle>
+            <DayText>Same Day</DayText>
+          </SecondHeaderContainer>
+          <SecondSectionWrapper>
+            <LeftSectionWrapper>
+              <ImageTextWrapper>
+                <ImageHolder
+                  src={box_2.customerInfo.img}
+                  alt="Image"
+                  width={50}
+                  height={50}
+                />
+                <CustomerInfoWrapper>
+                  <CustomerName>{box_2.customerInfo.name}</CustomerName>
+                  <CustomerShopName>
+                    {box_2.customerInfo.shopName}
+                  </CustomerShopName>
+                  <CustomerPhno>{box_2.customerInfo.phoneNo}</CustomerPhno>
+                </CustomerInfoWrapper>
+              </ImageTextWrapper>
+              <CreatedInputSectionWrapper>
+                <InputLabel>Pickup Location</InputLabel>
+                <TextareaInputSection
+                  value={box_2.customerInfo.pickupLocation}
+                  disabled
+                />
+              </CreatedInputSectionWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Mobile</InputLabel>
+                <InputSection value={box_2.customerInfo.mobileNo} disabled />
+              </InputSectionWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Name</InputLabel>
+                <SecondInputSection
+                  value={box_2.customerInfo.realName}
+                  disabled
+                />
+              </InputSectionWrapper>
+              <InputSectionWrapper>
+                <InputLabel>City</InputLabel>
+                <SecondInputSection value={box_2.customerInfo.city} disabled />
+              </InputSectionWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Township</InputLabel>
+                <SecondInputSection
+                  value={box_2.customerInfo.township}
+                  disabled
+                />
+              </InputSectionWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Address</InputLabel>
+                <TextareaInputSection
+                  value={box_2.customerInfo.address}
+                  disabled
+                />
+              </InputSectionWrapper>
+            </LeftSectionWrapper>
+            <CreatedRightSectionWrapper>
+              <SecondDropDownWrapper>
+                <InputLabel>To City</InputLabel>
+                <SecondDropDownContainer>
+                  <option value="yangon">Yangon</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </SecondDropDownContainer>
+              </SecondDropDownWrapper>
+
+              <SecondDropDownWrapper>
+                <InputLabel>Service Type</InputLabel>
+                <SecondDropDownContainer>
+                  <option value="same">Same Day</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </SecondDropDownContainer>
+              </SecondDropDownWrapper>
+              <WeightWrapper>
+                <WeightInputWrapper>
+                  <InputLabel>Weight (Kg)</InputLabel>
+                  <WeightInputSection />
+                </WeightInputWrapper>
+                <InDeButtonWrapper>
+                  <Button>+</Button>
+                  <Button>-</Button>
+                </InDeButtonWrapper>
+              </WeightWrapper>
+              <PaymentWrapper>
+                <SecondDropDownWrapper>
+                  <InputLabel>Payment By</InputLabel>
+                  <PaymentDropDownContainer>
+                    <option value="receiver">Receiver</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </PaymentDropDownContainer>
+                </SecondDropDownWrapper>
+
+                <SecondDropDownWrapper>
+                  <InputLabel>Payment Type</InputLabel>
+                  <PaymentDropDownContainer>
+                    <option value="postpaid">Postpaid</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </PaymentDropDownContainer>
+                </SecondDropDownWrapper>
+              </PaymentWrapper>
+
+              <CreatedCODWrapper onClick={() => setChecked(!checked)}>
+                <StyledCheckbox checked={checked}>
+                  {checked ? (
+                    <Icon viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12 " />
+                    </Icon>
+                  ) : null}
+                </StyledCheckbox>
+                <CheckboxTitle>COD</CheckboxTitle>
+              </CreatedCODWrapper>
+              <InputSectionWrapper>
+                <InputLabel>Pieces [Optional]</InputLabel>
+                <SecondInputSection />
+              </InputSectionWrapper>
+
+              <InputSectionWrapper>
+                <InputLabel>Special Instruction [Optional]</InputLabel>
+                <TextareaInputSection />
+              </InputSectionWrapper>
+
+              <ButtonWrapper>
+                <ConfirmButton>Confirm</ConfirmButton>
+                <CancelButton>Cancel</CancelButton>
+              </ButtonWrapper>
+            </CreatedRightSectionWrapper>
           </SecondSectionWrapper>
         </SecondHeaderWrapper>
       ) : null}
@@ -624,4 +800,21 @@ const CancelButton = styled.button`
   appearance: none;
   cursor: pointer;
   width: 47%;
+`;
+
+const CreatedCheckboxWrapper = styled.div`
+  margin-right: 10px;
+  align-self: center;
+`;
+
+const CreatedInputSectionWrapper = styled(InputSectionWrapper)`
+  margin-bottom: 20px;
+`;
+
+const CreatedCODWrapper = styled(CODWrapper)`
+  margin-bottom: 15px;
+`;
+
+const CreatedRightSectionWrapper = styled(RightSectionWrapper)`
+  margin-top: 85px;
 `;

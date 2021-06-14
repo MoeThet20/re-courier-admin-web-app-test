@@ -152,3 +152,46 @@ export const pickedData = [
     },
   },
 ];
+
+export const createdData = [
+  {
+    id: "1",
+    pickedID: "YGN4714510512YGN",
+    address: "Hlaing, Yangon",
+    createdDate: "18 May 2021",
+    createdStatus: "drop off",
+    customerInfo: {
+      name: "Kyawt Kay Khine",
+      img: "/profile_3.png",
+      shopName: "Pink Pink Online Shop",
+      phoneNo: "09797122458",
+      pickupLocation:
+        "No.22 Building 32, Thu Nandar Street, Hlaing Myint Mo Estate, Hlaing Yangon",
+      mobileNo: "09797122499",
+      realName: "The` Nu San",
+      city: "Yangon",
+      township: "Hlaing",
+      address: "Room 44/A, 3rd Floor, Building 4, MICT Park, Hlaing, Yangon",
+    },
+  },
+  {
+    id: "2",
+    pickedID: "YGN4714510515YGN",
+    address: "Hlaing, Yangon",
+    createdDate: "18 May 2021",
+    createdStatus: "drop off",
+    customerInfo: {
+      name: "MeshMellow Kay Khine",
+      img: "/profile_4.png",
+      shopName: "Mesh Mesh Online Shop",
+      phoneNo: "09797122458",
+      pickupLocation:
+        "No.22 Building 32, Thu Nandar Street, Hlaing Myint Mo Estate, Hlaing Yangon",
+      mobileNo: "09797122499",
+      realName: "The` Nu San",
+      city: "Yangon",
+      township: "Hlaing",
+      address: "Room 44/A, 3rd Floor, Building 4, MICT Park, Hlaing, Yangon",
+    },
+  },
+];
