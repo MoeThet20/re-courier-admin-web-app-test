@@ -29,9 +29,10 @@ const StyledTableCell = withStyles(
       color: "#255977",
       fontFamily: "Poppins-Bold",
       fontSize: 14,
-      //   borderStyle: "solid",
-      //   borderBottomColor: "skyblue",
-      //   borderBottomWidth: "1px",
+
+      borderBottomStyle: "solid",
+      borderBottomColor: "skyblue",
+      borderBottomWidth: "1px",
     },
     body: {
       fontFamily: "Poppins-Regular",
@@ -51,55 +52,11 @@ const StyledTableRow = withStyles(
       // "&:hover": {
       //   backgroundColor: "green",
       // },
+      cursor: "pointer",
     },
   }),
   { name: "MuiExamle_ComponentiAppBar" }
 )(TableRow);
-
-// function createData(
-//   id,
-//   pickupId,
-//   reqDateTime,
-//   cityTownship,
-//   sender,
-//   contactNo,
-//   delivery,
-//   state
-// ) {
-//   return {
-//     id,
-//     pickupId,
-//     reqDateTime,
-//     cityTownship,
-//     sender,
-//     contactNo,
-//     delivery,
-//     state,
-//   };
-// }
-
-// const rows = [
-//   createData(
-//     "1",
-//     "PK000118052021",
-//     "18 May 2021,2:00 - 3:00pm",
-//     "Hlaing, Yangon",
-//     "Kyawt Kay Khine",
-//     "09797122458",
-//     "Soe Moe",
-//     "On the way"
-//   ),
-//   createData(
-//     "2",
-//     "PK000118052021",
-//     "18 May 2021,2:00 - 3:00pm",
-//     "Hlaing, Yangon",
-//     "Su Su Nwe",
-//     "09797122458",
-//     "Paing Soe",
-//     "On the way"
-//   ),
-// ];
 
 const useStyles = makeStyles(
   {
@@ -108,6 +65,14 @@ const useStyles = makeStyles(
     },
     table: {
       minWidth: 700,
+    },
+    tableRow: {
+      "&.Mui-selected, &.Mui-selected:hover": {
+        backgroundColor: "purple",
+        "& > .MuiTableCell-root": {
+          color: "yellow",
+        },
+      },
     },
   },
   { name: "MuiExamle_ComponentiAppBar" }
@@ -118,6 +83,7 @@ export default function CustomizedTables() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [click, setClick] = useState(false);
+  const [selectedID, setSelectedID] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -167,7 +133,16 @@ export default function CustomizedTables() {
                 {rows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-                    <StyledTableRow key={row.id} onClick={() => setClick(true)}>
+                    <StyledTableRow
+                      hover
+                      key={row.id}
+                      selected={selectedID === row.id}
+                      className={classes.tableRow}
+                      onClick={() => {
+                        setSelectedID(row.id);
+                        setClick(true);
+                      }}
+                    >
                       <StyledTableCell component="th" scope="row">
                         {row.pickupId}
                       </StyledTableCell>
